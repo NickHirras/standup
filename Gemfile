@@ -28,7 +28,7 @@ gem "google-apis-chat_v1", "~> 0.1"
 gem "microsoft_graph", "~> 0.1"
 
 # Background Jobs and Scheduling
-gem "sidekiq", "~> 7.2"
+gem "sidekiq", "~> 8.0"
 gem "whenever", "~> 1.0"
 
 # UI and Styling
