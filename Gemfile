@@ -32,7 +32,7 @@ gem "sidekiq", "~> 7.2"
 gem "whenever", "~> 1.0"
 
 # UI and Styling
-gem "tailwindcss-rails", "~> 2.3"
+gem "tailwindcss-rails", "~> 4.3"
 gem "view_component", "~> 3.11"
 gem "heroicon", "~> 0.1"
 
