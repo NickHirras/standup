@@ -50,6 +50,13 @@ A modern, beautiful web application for software development teams to conduct vi
 - **Background Jobs**: Sidekiq
 - **Chat Integrations**: Slack, Google Chat, Microsoft Teams APIs
 
+## Screenshots
+
+<img width="1412" height="973" alt="image" src="https://github.com/user-attachments/assets/9b44d1bb-b93c-4d9b-a826-815c709e3b88" />
+
+<img width="1412" height="973" alt="image" src="https://github.com/user-attachments/assets/806fd6c0-7e6c-41ee-b4f0-ad3fc645c15d" />
+
+
 ## Getting Started
 
 ### Prerequisites
