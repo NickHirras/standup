@@ -49,6 +49,7 @@ A modern, beautiful web application for software development teams to conduct vi
 - **Frontend**: Hotwire (Turbo + Stimulus)
 - **Background Jobs**: Sidekiq
 - **Chat Integrations**: Slack, Google Chat, Microsoft Teams APIs
+- **Development Environment**: Dev Container with Docker (VS Code)
 
 ## Screenshots
 
@@ -59,10 +60,83 @@ A modern, beautiful web application for software development teams to conduct vi
 
 ## Getting Started
 
+> **🚀 Quick Start**: For the fastest setup, jump to [Development with Dev Container](#-development-with-dev-container-recommended) below!
+
 ### Prerequisites
 - Ruby 3.4+
 - Rails 8.0+
 - SQLite3
+
+## 🐳 Development with Dev Container (Recommended)
+
+The easiest way to get started with development is using VS Code's Dev Container feature. This provides a consistent, isolated development environment with all dependencies pre-configured.
+
+### Prerequisites for Dev Container
+- [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or Docker Engine)
+
+### Quick Start with Dev Container
+
+1. **Clone and Open**
+   ```bash
+   git clone <repository-url>
+   cd standup
+   code .
+   ```
+
+2. **Open in Container**
+   - When VS Code opens, click **"Reopen in Container"** when prompted
+   - Or use `Ctrl+Shift+P` → "Dev Containers: Reopen in Container"
+
+3. **Automatic Setup**
+   The container will automatically:
+   - Install Ruby gems (`bundle install`)
+   - Install Node.js packages (`npm install`)
+   - Create and migrate the database
+   - Seed sample data
+   - Start the Rails server
+
+4. **Access Your App**
+   - Rails server: http://localhost:3000
+   - Redis: localhost:6379 (for Sidekiq)
+
+### What's Included in the Dev Container
+
+- **Ruby 3.4.5** with all development gems
+- **Node.js 20** for Tailwind CSS compilation
+- **SQLite3** database
+- **Redis** for Sidekiq background jobs
+- **Development Tools**: RuboCop, Solargraph, debugging support
+- **VS Code Extensions**: Ruby support, Tailwind CSS IntelliSense, ERB templates
+
+### Dev Container Features
+
+- **Automatic Port Forwarding**: Rails (3000) and Redis (6379)
+- **Persistent Volumes**: Bundle cache, node modules, and database files
+- **Hot Reload**: Changes to your code are reflected immediately
+- **Integrated Terminal**: Full access to the container environment
+- **Debugging**: Ruby debugging support with breakpoints
+
+### Working with the Dev Container
+
+```bash
+# The container provides these commands automatically:
+bundle exec rails server          # Start Rails server
+bundle exec rails console        # Rails console
+bundle exec rails test           # Run tests
+bundle exec rubocop              # Code linting
+bundle exec sidekiq              # Background job processing
+npm run build:css                # Compile Tailwind CSS
+```
+
+### Troubleshooting Dev Container
+
+- **Port Conflicts**: Ensure ports 3000 and 6379 are available
+- **Permission Issues**: The container runs as non-root user `vscode`
+- **Database Issues**: Check that the `storage/` directory is properly mounted
+- **Rebuild Container**: Use `Ctrl+Shift+P` → "Dev Containers: Rebuild Container"
+
+For more details, see [`.devcontainer/README.md`](.devcontainer/README.md).
 
 ### Installation
 
@@ -185,11 +259,37 @@ kamal deploy
 
 ## Contributing
 
+We welcome contributions! For the best development experience, we recommend using the Dev Container setup.
+
+### Development Setup
+
+1. **Use Dev Container** (Recommended)
+   - Follow the [Dev Container setup](#-development-with-dev-container-recommended) above
+   - This ensures a consistent development environment
+
+2. **Traditional Setup** (Alternative)
+   - Follow the [Installation](#installation) steps below
+   - Ensure you have all prerequisites installed locally
+
+### Contributing Process
+
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
 4. Add tests for new functionality
-5. Submit a pull request
+5. Run the test suite (`bundle exec rails test`)
+6. Check code quality (`bundle exec rubocop`)
+7. Commit your changes (`git commit -m 'Add amazing feature'`)
+8. Push to the branch (`git push origin feature/amazing-feature`)
+9. Submit a pull request
+
+### Code Quality Standards
+
+- Follow Rails conventions and best practices
+- Ensure all tests pass
+- Run RuboCop and fix any linting issues
+- Add appropriate documentation for new features
+- Follow the existing code style and patterns
 
 ## License
 
