@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ../..:/workspace:cached
+      - bundle_cache:/usr/local/bundle
+      - node_modules_cache:/workspace/node_modules
+    command: sleep infinity
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - RAILS_ENV=development
+      - RAILS_SERVE_STATIC_FILES=true
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  bundle_cache:
+  node_modules_cache:
+  redis_data:

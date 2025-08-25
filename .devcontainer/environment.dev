@@ -1,0 +1,28 @@
+# Development Environment Variables
+RAILS_ENV=development
+RAILS_SERVE_STATIC_FILES=true
+RAILS_LOG_TO_STDOUT=true
+
+# Database
+DATABASE_URL=sqlite3:/workspace/storage/development.sqlite3
+
+# Redis for Sidekiq
+REDIS_URL=redis://redis:6379
+
+# Rails
+SECRET_KEY_BASE=development_secret_key_base_placeholder
+RAILS_MASTER_KEY=development_master_key_placeholder
+
+# Development settings
+RAILS_MAX_THREADS=5
+WEB_CONCURRENCY=1
+
+# Asset compilation
+RAILS_ASSET_HOST=http://localhost:3000
+
+# Logging
+LOG_LEVEL=debug
+
+# Development tools
+RUBY_DEBUG_OPEN=true
+RUBY_DEBUG_PORT=12345
