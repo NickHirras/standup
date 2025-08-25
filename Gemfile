@@ -34,7 +34,7 @@ gem "whenever", "~> 1.0"
 # UI and Styling
 gem "tailwindcss-rails", "~> 2.3"
 gem "view_component", "~> 3.11"
-gem "heroicon", "~> 0.1"
+gem "heroicon", "~> 1.0"
 
 # File Uploads
 gem "image_processing", "~> 1.2"
