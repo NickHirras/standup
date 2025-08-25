@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  start_time: 2025-08-24 21:08:37
+  end_time: 2025-08-24 21:08:37
+  timezone: MyString
+  days_of_week: MyText
+
+two:
+  user: two
+  start_time: 2025-08-24 21:08:37
+  end_time: 2025-08-24 21:08:37
+  timezone: MyString
+  days_of_week: MyText

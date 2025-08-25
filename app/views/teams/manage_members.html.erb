@@ -1,0 +1,93 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Manage Team Members</h1>
+        <p class="text-gray-600 mt-1"><%= @team.name %> - Add or remove team members</p>
+      </div>
+      <div>
+        <%= link_to "Back to Team", team_path(@team), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Members -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Current Team Members</h2>
+      <p class="text-sm text-gray-600"><%= @members.count %> members</p>
+    </div>
+    <div class="divide-y divide-gray-200">
+      <% @members.each do |membership| %>
+        <div class="px-6 py-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                <span class="text-sm font-medium text-gray-600"><%= membership.user.first_name[0] %></span>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900"><%= membership.user.full_name %></p>
+                <p class="text-sm text-gray-500"><%= membership.user.email %></p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= membership.manager? ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' %>">
+                <%= membership.role.humanize %>
+              </span>
+              <% if membership.user != current_user %>
+                <%= button_to "Remove", remove_member_team_path(@team, user_id: membership.user.id), method: :delete, class: "text-red-600 hover:text-red-800 text-sm", data: { confirm: "Are you sure you want to remove #{membership.user.full_name} from the team?" } %>
+              <% else %>
+                <span class="text-sm text-gray-400">You</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Add New Members -->
+  <% if @available_users.any? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Add New Members</h2>
+        <p class="text-sm text-gray-600">Select users to add to your team</p>
+      </div>
+      <div class="divide-y divide-gray-200">
+        <% @available_users.each do |user| %>
+          <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                  <span class="text-sm font-medium text-gray-600"><%= user.first_name[0] %></span>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-900"><%= user.full_name %></p>
+                  <p class="text-sm text-gray-500"><%= user.email %></p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <%= form_with url: add_member_team_path(@team), method: :post, local: true, class: "flex items-center space-x-2" do |form| %>
+                  <%= form.hidden_field :user_id, value: user.id %>
+                  <%= form.select :role, options_for_select([['Member', 'member'], ['Manager', 'manager']]), {}, { class: "text-sm border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" } %>
+                  <%= form.submit "Add", class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
+      <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">No available users</h3>
+      <p class="text-gray-600">All company users are already part of this team.</p>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,144 @@
+<div class="space-y-6">
+  <!-- Ceremony Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="flex items-center space-x-3 mb-2">
+          <h1 class="text-2xl font-bold text-gray-900"><%= @ceremony.name %></h1>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <%= @ceremony.cadence.humanize %>
+          </span>
+          <% unless @ceremony.active %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+              Inactive
+            </span>
+          <% end %>
+        </div>
+        <p class="text-gray-600"><%= @ceremony.description %></p>
+        <div class="mt-4 flex items-center space-x-6 text-sm text-gray-500">
+          <span class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <%= @ceremony.team.name %>
+          </span>
+          <span class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <%= @ceremony.scheduled_time.strftime("%I:%M %p") %>
+          </span>
+          <span class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <%= @ceremony.completion_rate_for_today %>%
+          </span>
+        </div>
+      </div>
+      <div class="flex space-x-2">
+        <% if @ceremony.pending_members_for_today.include?(current_user) %>
+          <%= link_to "Participate", participate_team_ceremony_path(@ceremony.team, @ceremony), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <% end %>
+        <%= link_to "View Responses", responses_team_ceremony_path(@ceremony.team, @ceremony), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <% if current_user.team_manager?(@ceremony.team) %>
+          <%= link_to "Edit", edit_team_ceremony_path(@ceremony.team, @ceremony), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Questions -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Questions</h2>
+      <p class="text-sm text-gray-600"><%= @questions.count %> questions</p>
+    </div>
+    <div class="divide-y divide-gray-200">
+      <% @questions.each_with_index do |question, index| %>
+        <div class="px-6 py-4">
+          <div class="flex items-start space-x-3">
+            <div class="flex-shrink-0 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+              <span class="text-sm font-medium text-gray-600"><%= index + 1 %></span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center space-x-2 mb-2">
+                <p class="text-sm font-medium text-gray-900"><%= question.question_text %></p>
+                <% if question.required %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                    Required
+                  </span>
+                <% end %>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                  <%= question.question_type.humanize %>
+                </span>
+              </div>
+              <% if question.has_options? %>
+                <div class="text-sm text-gray-600">
+                  <strong>Options:</strong> <%= question.options_array.join(", ") %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Recent Responses -->
+  <% if @responses.any? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Today's Responses</h2>
+        <p class="text-sm text-gray-600"><%= @responses.count %> responses</p>
+      </div>
+      <div class="divide-y divide-gray-200">
+        <% @responses.each do |response| %>
+          <div class="px-6 py-4">
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <span class="text-sm font-medium text-blue-600"><%= response.user.first_name[0] %></span>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900">
+                  <%= response.user.full_name %> responded to "<%= response.question.question_text %>"
+                </p>
+                <p class="text-sm text-gray-600 mt-1">
+                  <strong>Answer:</strong> <%= response.formatted_answer %>
+                </p>
+                <p class="text-xs text-gray-500 mt-1">
+                  <%= time_ago_in_words(response.submitted_at) %> ago
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Pending Members -->
+  <% if @pending_members.any? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Pending Responses</h2>
+        <p class="text-sm text-gray-600"><%= @pending_members.count %> members haven't responded yet</p>
+      </div>
+      <div class="divide-y divide-gray-200">
+        <% @pending_members.each do |member| %>
+          <div class="px-6 py-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <span class="text-sm font-medium text-gray-600"><%= member.first_name[0] %></span>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900"><%= member.full_name %></p>
+                <p class="text-sm text-gray-500">No response yet</p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

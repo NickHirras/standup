@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ceremony: one
+  user: one
+  question: one
+  answer: MyText
+  submitted_at: 2025-08-24 21:08:08
+
+two:
+  ceremony: two
+  user: two
+  question: two
+  answer: MyText
+  submitted_at: 2025-08-24 21:08:08

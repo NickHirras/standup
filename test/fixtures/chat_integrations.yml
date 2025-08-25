@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company: one
+  platform: MyString
+  config: MyText
+  active: false
+
+two:
+  company: two
+  platform: MyString
+  config: MyText
+  active: false

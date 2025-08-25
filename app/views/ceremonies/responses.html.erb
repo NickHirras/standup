@@ -1,0 +1,169 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Ceremony Responses</h1>
+        <p class="text-gray-600 mt-1"><%= @ceremony.name %> - <%= @ceremony.team.name %></p>
+        <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+          <span><%= @ceremony.cadence.humanize %></span>
+          <span><%= @ceremony.scheduled_time.strftime("%I:%M %p") %></span>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <%= @ceremony.question_count %> questions
+          </span>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="text-sm text-gray-500">Today is</p>
+        <p class="text-lg font-semibold text-gray-900"><%= Date.current.strftime("%A, %B %d") %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Response Summary -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Today's Responses</h2>
+      <p class="text-sm text-gray-600">View how your team members responded today</p>
+    </div>
+
+    <% if @responses.any? %>
+      <div class="divide-y divide-gray-200">
+        <% @questions.each do |question| %>
+          <div class="px-6 py-6">
+            <div class="mb-4">
+              <h3 class="text-lg font-medium text-gray-900 mb-2">
+                <%= question.order %>. <%= question.question_text %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-2">
+                  <%= question.question_type.humanize %>
+                </span>
+                <% if question.required? %>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 ml-2">
+                    Required
+                  </span>
+                <% end %>
+              </h3>
+              
+              <% if question.has_options? %>
+                <p class="text-sm text-gray-600 mb-3">Options: <%= question.options_array.join(', ') %></p>
+              <% end %>
+            </div>
+
+            <!-- Responses for this question -->
+            <div class="space-y-3">
+              <% question_responses = @responses.select { |r| r.question_id == question.id } %>
+              <% if question_responses.any? %>
+                <% question_responses.each do |response| %>
+                  <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="flex items-start space-x-3">
+                      <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                          <span class="text-sm font-medium text-blue-600"><%= response.user.first_name[0] %></span>
+                        </div>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <div class="flex items-center space-x-2 mb-1">
+                          <p class="text-sm font-medium text-gray-900"><%= response.user.full_name %></p>
+                          <span class="text-xs text-gray-500">•</span>
+                          <span class="text-xs text-gray-500"><%= time_ago_in_words(response.submitted_at) %> ago</span>
+                        </div>
+                        <div class="text-sm text-gray-700">
+                          <% case question.question_type %>
+                          <% when 'short_answer', 'paragraph' %>
+                            <p><%= response.answer %></p>
+                          <% when 'multiple_choice', 'dropdown' %>
+                            <p><%= response.answer %></p>
+                          <% when 'checkboxes' %>
+                            <% if response.answer_array.any? %>
+                              <ul class="list-disc list-inside space-y-1">
+                                <% response.answer_array.each do |option| %>
+                                  <li><%= option %></li>
+                                <% end %>
+                              </ul>
+                            <% else %>
+                              <p class="text-gray-500 italic">No options selected</p>
+                            <% end %>
+                          <% when 'linear_scale' %>
+                            <p>Rating: <span class="font-medium"><%= response.answer %></span>/10</p>
+                          <% when 'multiple_choice_grid', 'checkbox_grid' %>
+                            <% if response.answer_hash.present? %>
+                              <div class="space-y-1">
+                                <% response.answer_hash.each do |row, col| %>
+                                  <p><span class="font-medium"><%= row %></span>: <%= col %></p>
+                                <% end %>
+                              </div>
+                            <% else %>
+                              <p class="text-gray-500 italic">No grid responses</p>
+                            <% end %>
+                          <% when 'date' %>
+                            <p>Date: <span class="font-medium"><%= response.answer %></span></p>
+                          <% when 'time' %>
+                            <p>Time: <span class="font-medium"><%= response.answer %></span></p>
+                          <% when 'file_upload' %>
+                            <% if response.answer.present? %>
+                              <p>File uploaded: <span class="font-medium"><%= response.answer %></span></p>
+                            <% else %>
+                              <p class="text-gray-500 italic">No file uploaded</p>
+                            <% end %>
+                          <% else %>
+                            <p><%= response.answer %></p>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="bg-gray-50 rounded-lg p-4 text-center">
+                  <p class="text-sm text-gray-500 italic">No responses yet for this question</p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="px-6 py-8 text-center">
+        <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No responses today</h3>
+        <p class="text-gray-600 mb-4">Team members haven't responded to today's ceremony yet.</p>
+        <div class="flex justify-center space-x-3">
+          <%= link_to "View Ceremony", team_ceremony_path(@team, @ceremony), 
+              class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+          <%= link_to "Edit Ceremony", edit_team_ceremony_path(@team, @ceremony), 
+              class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Response Statistics -->
+  <% if @responses.any? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Response Statistics</h2>
+        <p class="text-sm text-gray-600">Summary of today's participation</p>
+      </div>
+      <div class="px-6 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="text-2xl font-bold text-blue-600"><%= @responses.count %></div>
+            <div class="text-sm text-gray-600">Total Responses</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-green-600"><%= @ceremony.team.all_members.count %></div>
+            <div class="text-sm text-gray-600">Team Members</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl font-bold text-purple-600"><%= @ceremony.completion_rate_for_today %>%</div>
+            <div class="text-sm text-gray-600">Completion Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

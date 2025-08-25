@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team: one
+  chat_integration: one
+  chat_space_id: MyString
+  chat_space_name: MyString
+  active: false
+
+two:
+  team: two
+  chat_integration: two
+  chat_space_id: MyString
+  chat_space_name: MyString
+  active: false

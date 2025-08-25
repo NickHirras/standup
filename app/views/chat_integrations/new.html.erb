@@ -1,0 +1,201 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Create New Chat Integration</h1>
+        <p class="text-gray-600 mt-1">Add a new chat platform integration for <%= current_company&.name || 'your company' %></p>
+      </div>
+      <div class="text-right">
+        <%= link_to "Back to Integrations", chat_integrations_path, 
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integration Creation Form -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Integration Details</h2>
+      <p class="text-sm text-gray-600">Configure the chat platform and settings</p>
+    </div>
+
+    <%= form_with model: @chat_integration, local: true, class: "divide-y divide-gray-200" do |form| %>
+      <div class="px-6 py-6 space-y-6">
+        <!-- Platform Selection -->
+        <div>
+          <%= form.label :platform, class: "block text-sm font-medium text-gray-900 mb-2" %>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="relative">
+              <%= form.radio_button :platform, 'slack', class: "sr-only", id: "platform_slack" %>
+              <label for="platform_slack" class="relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus:outline-none">
+                <div class="flex flex-1">
+                  <div class="flex flex-col">
+                    <div class="flex items-center">
+                      <div class="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                        <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M6.194 14.644c0 1.16-.943 2.107-2.106 2.107-1.163 0-2.106-.947-2.106-2.107 0-1.16.943-2.106 2.106-2.106 1.163 0 2.106.946 2.106 2.106zm5.74-2.106c0 1.16-.943 2.106-2.106 2.106-1.163 0-2.106-.946-2.106-2.106 0-1.16.943-2.107 2.106-2.107 1.163 0 2.106.947 2.106 2.107zm5.74 0c0 1.16-.943 2.106-2.106 2.106-1.163 0-2.106-.946-2.106-2.106 0-1.16.943-2.107 2.106-2.107 1.163 0 2.106.947 2.106 2.107zm-5.74-2.106c0-1.16-.943-2.106-2.106-2.106-1.163 0-2.106.946-2.106 2.106 0 1.16.943 2.106 2.106 2.106 1.163 0 2.106-.946 2.106-2.106zm-5.74 0c0-1.16-.943-2.106-2.106-2.106-1.163 0-2.106.946-2.106 2.106 0 1.16.943 2.106 2.106 2.106 1.163 0 2.106-.946 2.106-2.106z"/>
+                        </svg>
+                      </div>
+                      <span class="block text-sm font-medium text-gray-900">Slack</span>
+                    </div>
+                    <span class="mt-1 flex items-center text-xs text-gray-500">Popular team chat platform</span>
+                  </div>
+                </div>
+                <div class="ml-3 flex h-5 items-center">
+                  <svg class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+
+            <div class="relative">
+              <%= form.radio_button :platform, 'google_chat', class: "sr-only", id: "platform_google_chat" %>
+              <label for="platform_google_chat" class="relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus:outline-none">
+                <div class="flex flex-1">
+                  <div class="flex flex-col">
+                    <div class="flex items-center">
+                      <div class="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                      </div>
+                      <span class="block text-sm font-medium text-gray-900">Google Chat</span>
+                    </div>
+                    <span class="mt-1 flex items-center text-xs text-gray-500">Google Workspace integration</span>
+                  </div>
+                </div>
+                <div class="ml-3 flex h-5 items-center">
+                  <svg class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+
+            <div class="relative">
+              <%= form.radio_button :platform, 'microsoft_teams', class: "sr-only", id: "platform_microsoft_teams" %>
+              <label for="platform_microsoft_teams" class="relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus:outline-none">
+                <div class="flex flex-1">
+                  <div class="flex flex-col">
+                    <div class="flex items-center">
+                      <div class="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                        <svg class="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                      </div>
+                      <span class="block text-sm font-medium text-gray-900">Microsoft Teams</span>
+                    </div>
+                    <span class="mt-1 flex items-center text-xs text-gray-500">Microsoft 365 integration</span>
+                  </div>
+                </div>
+                <div class="ml-3 flex h-5 items-center">
+                  <svg class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration -->
+        <div>
+          <%= form.label :config, "Configuration (JSON)", class: "block text-sm font-medium text-gray-900 mb-2" %>
+          <p class="text-sm text-gray-600 mb-3">Enter the configuration details for the selected platform</p>
+          <%= form.text_area :config, 
+              rows: 8,
+              class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono",
+              placeholder: '{"webhook_url": "https://hooks.slack.com/services/...", "channel": "#general"}' %>
+        </div>
+
+        <!-- Status -->
+        <div class="flex items-center">
+          <div class="flex items-center h-5">
+            <%= form.check_box :active, 
+                checked: true,
+                class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+          </div>
+          <div class="ml-3 text-sm">
+            <%= form.label :active, "Active", class: "font-medium text-gray-900" %>
+            <p class="text-gray-500">Enable this integration immediately</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+        <div class="flex justify-between items-center">
+          <%= link_to "Cancel", chat_integrations_path, 
+              class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+          
+          <%= form.submit "Create Integration", 
+              class: "inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Platform Configuration Help -->
+  <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-medium text-blue-800">Configuration Examples</h3>
+        <div class="mt-2 text-sm text-blue-700">
+          <div class="space-y-3">
+            <div>
+              <p class="font-medium">Slack:</p>
+              <pre class="text-xs bg-blue-100 p-2 rounded mt-1">{"webhook_url": "https://hooks.slack.com/services/...", "channel": "#general"}</pre>
+            </div>
+            <div>
+              <p class="font-medium">Google Chat:</p>
+              <pre class="text-xs bg-blue-100 p-2 rounded mt-1">{"webhook_url": "https://chat.googleapis.com/v1/spaces/...", "thread_key": "..."}</pre>
+            </div>
+            <div>
+              <p class="font-medium">Microsoft Teams:</p>
+              <pre class="text-xs bg-blue-100 p-2 rounded mt-1">{"webhook_url": "https://outlook.office.com/webhook/...", "channel": "General"}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const platformInputs = document.querySelectorAll('input[name="chat_integration[platform]"]');
+  const configField = document.querySelector('textarea[name="chat_integration[config]"]');
+  
+  function updateConfigPlaceholder() {
+    const selectedPlatform = document.querySelector('input[name="chat_integration[platform]"]:checked')?.value;
+    
+    switch(selectedPlatform) {
+      case 'slack':
+        configField.placeholder = '{"webhook_url": "https://hooks.slack.com/services/...", "channel": "#general"}';
+        break;
+      case 'google_chat':
+        configField.placeholder = '{"webhook_url": "https://chat.googleapis.com/v1/spaces/...", "thread_key": "..."}';
+        break;
+      case 'microsoft_teams':
+        configField.placeholder = '{"webhook_url": "https://outlook.office.com/webhook/...", "channel": "General"}';
+        break;
+      default:
+        configField.placeholder = '{"webhook_url": "...", "channel": "..."}';
+    }
+  }
+  
+  platformInputs.forEach(input => {
+    input.addEventListener('change', updateConfigPlaceholder);
+  });
+  
+  // Initial state
+  updateConfigPlaceholder();
+});
+</script>

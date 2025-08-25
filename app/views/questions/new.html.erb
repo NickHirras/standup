@@ -1,0 +1,155 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Add New Question</h1>
+        <p class="text-gray-600 mt-1"><%= @ceremony.name %> - <%= @team.name %></p>
+        <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+          <span>Question <%= @question.order %></span>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            <%= @ceremony.question_count + 1 %> total
+          </span>
+        </div>
+      </div>
+      <div class="text-right">
+        <%= link_to "Back to Questions", team_ceremony_questions_path(@team, @ceremony), 
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question Form -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Question Details</h2>
+      <p class="text-sm text-gray-600">Configure the question type and content</p>
+    </div>
+
+    <%= form_with model: [@team, @ceremony, @question], local: true, class: "divide-y divide-gray-200" do |form| %>
+      <div class="px-6 py-6 space-y-6">
+        <!-- Basic Information -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= form.label :question_text, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.text_field :question_text, 
+                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                placeholder: "e.g., What did you work on yesterday?" %>
+          </div>
+
+          <div>
+            <%= form.label :question_type, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.select :question_type, 
+                options_for_select([
+                  ['Short Answer', 'short_answer'],
+                  ['Paragraph', 'paragraph'],
+                  ['Multiple Choice', 'multiple_choice'],
+                  ['Checkboxes', 'checkboxes'],
+                  ['Dropdown List', 'dropdown'],
+                  ['File Upload', 'file_upload'],
+                  ['Linear Scale (1-10)', 'linear_scale'],
+                  ['Multiple Choice Grid', 'multiple_choice_grid'],
+                  ['Checkbox Grid', 'checkbox_grid'],
+                  ['Date', 'date'],
+                  ['Time', 'time']
+                ]),
+                { prompt: 'Select question type...' },
+                { class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                  id: "question-type-select" } %>
+          </div>
+        </div>
+
+        <!-- Options Field (for choice-based questions) -->
+        <div id="options-field" class="hidden">
+          <%= form.label :options, "Question Options", class: "block text-sm font-medium text-gray-900 mb-2" %>
+          <p class="text-sm text-gray-600 mb-3">Enter each option on a new line</p>
+          <%= form.text_area :options, 
+              rows: 4,
+              class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+              placeholder: "Option 1&#10;Option 2&#10;Option 3&#10;Option 4" %>
+        </div>
+
+        <!-- Settings -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= form.label :order, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.number_field :order, 
+                min: 1,
+                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+
+          <div class="flex items-center">
+            <div class="flex items-center h-5">
+              <%= form.check_box :required, 
+                  checked: true,
+                  class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+            </div>
+            <div class="ml-3 text-sm">
+              <%= form.label :required, "Required", class: "font-medium text-gray-900" %>
+              <p class="text-gray-500">Team members must answer this question</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+        <div class="flex justify-between items-center">
+          <%= link_to "Cancel", team_ceremony_questions_path(@team, @ceremony), 
+              class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+          
+          <%= form.submit "Create Question", 
+              class: "inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Question Type Help -->
+  <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-medium text-blue-800">Question Type Guide</h3>
+        <div class="mt-2 text-sm text-blue-700">
+          <ul class="list-disc list-inside space-y-1">
+            <li><strong>Short Answer:</strong> Single line text response</li>
+            <li><strong>Paragraph:</strong> Multi-line text response</li>
+            <li><strong>Multiple Choice:</strong> Single selection from options</li>
+            <li><strong>Checkboxes:</strong> Multiple selections from options</li>
+            <li><strong>Dropdown:</strong> Single selection from dropdown</li>
+            <li><strong>File Upload:</strong> Allow file attachments</li>
+            <li><strong>Linear Scale:</strong> 1-10 rating scale</li>
+            <li><strong>Grid Questions:</strong> Matrix-style responses</li>
+            <li><strong>Date/Time:</strong> Date or time picker</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const questionTypeSelect = document.getElementById('question-type-select');
+  const optionsField = document.getElementById('options-field');
+  
+  function toggleOptionsField() {
+    const selectedType = questionTypeSelect.value;
+    const needsOptions = ['multiple_choice', 'checkboxes', 'dropdown', 'multiple_choice_grid', 'checkbox_grid'].includes(selectedType);
+    
+    if (needsOptions) {
+      optionsField.classList.remove('hidden');
+    } else {
+      optionsField.classList.add('hidden');
+    }
+  }
+  
+  questionTypeSelect.addEventListener('change', toggleOptionsField);
+  toggleOptionsField(); // Initial state
+});
+</script>

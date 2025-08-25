@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  team: one
+  cadence: MyString
+  scheduled_time: 2025-08-24 21:07:50
+  timezone: MyString
+  active: false
+
+two:
+  name: MyString
+  description: MyText
+  team: two
+  cadence: MyString
+  scheduled_time: 2025-08-24 21:07:50
+  timezone: MyString
+  active: false

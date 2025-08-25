@@ -1,0 +1,139 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <p class="text-gray-600 mt-1">Your daily overview and pending tasks</p>
+      </div>
+      <div class="text-right">
+        <p class="text-sm text-gray-500">Today is</p>
+        <p class="text-lg font-semibold text-gray-900"><%= Date.current.strftime("%A, %B %d") %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Today's Ceremonies -->
+  <% if @today_ceremonies&.any? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Today's Ceremonies</h2>
+        <p class="text-sm text-gray-600">Ceremonies scheduled for today</p>
+      </div>
+      <div class="divide-y divide-gray-200">
+        <% @today_ceremonies.each do |ceremony| %>
+          <div class="px-6 py-4">
+            <div class="flex items-center justify-between">
+              <div class="flex-1">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-lg font-medium text-gray-900"><%= ceremony.name %></h3>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <%= ceremony.cadence.humanize %>
+                  </span>
+                </div>
+                <p class="text-sm text-gray-600 mt-1"><%= ceremony.description %></p>
+                <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                  <span><%= ceremony.team.name %></span>
+                  <span><%= ceremony.scheduled_time.strftime("%I:%M %p") %></span>
+                  <span class="flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <%= ceremony.completion_rate_for_today %>%
+                  </span>
+                </div>
+              </div>
+              <div class="flex space-x-2">
+                <% if ceremony.pending_members_for_today&.include?(current_user) %>
+                  <%= link_to "Participate", participate_team_ceremony_path(ceremony.team, ceremony), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                <% else %>
+                  <span class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-gray-50">
+                    Completed
+                  </span>
+                <% end %>
+                <%= link_to "View", team_ceremony_path(ceremony.team, ceremony), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
+      <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">No ceremonies today</h3>
+      <p class="text-gray-600">You're all caught up! Check back tomorrow for your next stand-up.</p>
+    </div>
+  <% end %>
+
+  <!-- Quick Actions -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
+      <div class="space-y-3">
+        <%= link_to "View All Teams", teams_path, class: "w-full flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <%= link_to "Update Work Schedule", edit_work_schedule_path, class: "w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Your Work Schedule</h3>
+      <% if current_user.work_schedule %>
+        <div class="space-y-3">
+          <div class="flex justify-between">
+            <span class="text-sm text-gray-600">Hours:</span>
+            <span class="text-sm font-medium text-gray-900"><%= current_user.work_schedule.work_hours %></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-sm text-gray-600">Days:</span>
+            <span class="text-sm font-medium text-gray-900"><%= current_user.work_schedule.work_days_display %></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-sm text-gray-600">Status:</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= current_user.work_schedule.working_now? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+              <%= current_user.work_schedule.working_now? ? 'Working Now' : 'Not Working' %>
+            </span>
+          </div>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-600 mb-3">No work schedule set</p>
+        <%= link_to "Set Work Schedule", new_work_schedule_path, class: "w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <% if @recent_responses&.any? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Recent Activity</h2>
+        <p class="text-sm text-gray-600">Your recent responses and updates</p>
+      </div>
+      <div class="divide-y divide-gray-200">
+        <% @recent_responses.each do |response| %>
+          <div class="px-6 py-4">
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0">
+                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                  <span class="text-sm font-medium text-blue-600"><%= response.ceremony.name[0] %></span>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900">
+                  You responded to "<%= response.question.question_text %>"
+                </p>
+                <p class="text-sm text-gray-600">
+                  <%= response.ceremony.name %> • <%= response.ceremony.team.name %> • <%= time_ago_in_words(response.submitted_at) %> ago
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

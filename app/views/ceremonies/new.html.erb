@@ -1,0 +1,133 @@
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Create New Ceremony</h1>
+        <p class="text-gray-600 mt-1">Set up a new ceremony for your team</p>
+      </div>
+      <div class="text-right">
+        <p class="text-sm text-gray-500">Team</p>
+        <p class="text-lg font-semibold text-gray-900"><%= @team.name %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Creation Form -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Ceremony Details</h2>
+      <p class="text-sm text-gray-600">Configure the ceremony settings and schedule</p>
+    </div>
+
+    <%= form_with model: [@team, @ceremony], local: true, class: "divide-y divide-gray-200" do |form| %>
+      <div class="px-6 py-6 space-y-6">
+        <!-- Basic Information -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= form.label :name, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.text_field :name, 
+                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                placeholder: "e.g., Daily Stand-up" %>
+          </div>
+
+          <div>
+            <%= form.label :cadence, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.select :cadence, 
+                options_for_select([
+                  ['Daily', 'daily'],
+                  ['Weekly', 'weekly'],
+                  ['Bi-weekly', 'bi_weekly'],
+                  ['Monthly', 'monthly'],
+                  ['Custom', 'custom']
+                ]),
+                { prompt: 'Select cadence...' },
+                { class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <%= form.label :description, class: "block text-sm font-medium text-gray-900 mb-2" %>
+          <%= form.text_area :description, 
+              rows: 3,
+              class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+              placeholder: "Describe the purpose and format of this ceremony..." %>
+        </div>
+
+        <!-- Schedule Settings -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <%= form.label :scheduled_time, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.time_field :scheduled_time, 
+                value: "09:00",
+                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= form.label :timezone, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.select :timezone, 
+                options_for_select([
+                  ['Eastern Time (ET)', 'America/New_York'],
+                  ['Central Time (CT)', 'America/Chicago'],
+                  ['Mountain Time (MT)', 'America/Denver'],
+                  ['Pacific Time (PT)', 'America/Los_Angeles'],
+                  ['UTC', 'UTC'],
+                  ['London (GMT)', 'Europe/London'],
+                  ['Berlin (CET)', 'Europe/Berlin'],
+                  ['Tokyo (JST)', 'Asia/Tokyo'],
+                  ['Sydney (AEDT)', 'Australia/Sydney']
+                ], current_user&.timezone || 'America/New_York'),
+                { prompt: 'Select timezone...' },
+                { class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
+          </div>
+
+          <div class="flex items-center">
+            <div class="flex items-center h-5">
+              <%= form.check_box :active, 
+                  checked: true,
+                  class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+            </div>
+            <div class="ml-3 text-sm">
+              <%= form.label :active, "Active", class: "font-medium text-gray-900" %>
+              <p class="text-gray-500">Enable this ceremony immediately</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+        <div class="flex justify-between items-center">
+          <%= link_to "Cancel", team_ceremonies_path(@team), 
+              class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+          
+          <%= form.submit "Create Ceremony", 
+              class: "inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Next Steps Info -->
+  <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-medium text-blue-800">Next Steps</h3>
+        <div class="mt-2 text-sm text-blue-700">
+          <p class="mb-2">After creating your ceremony, you'll want to:</p>
+          <ol class="list-decimal list-inside space-y-1">
+            <li>Add questions that team members will answer</li>
+            <li>Configure notification settings</li>
+            <li>Test the ceremony with your team</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
