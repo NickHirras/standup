@@ -1,6 +1,6 @@
 <div class="space-y-6">
   <!-- Page Header -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-4">
         <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
@@ -18,19 +18,19 @@
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
             </svg>
           <% else %>
-            <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-8 h-8 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
             </svg>
           <% end %>
         </div>
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Edit Integration</h1>
-          <p class="text-gray-600 mt-1">Update <%= @chat_integration.platform_display_name %> integration</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Integration</h1>
+          <p class="text-gray-600 dark:text-gray-300 mt-1">Update <%= @chat_integration.platform_display_name %> integration</p>
           <div class="mt-2 flex items-center space-x-2">
             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= @chat_integration.active? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
               <%= @chat_integration.active? ? 'Active' : 'Inactive' %>
             </span>
-            <span class="text-sm text-gray-500">• <%= @chat_integration.team_chat_configs.count %> team configs</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">• <%= @chat_integration.team_chat_configs.count %> team configs</span>
           </div>
         </div>
       </div>
@@ -42,17 +42,17 @@
   </div>
 
   <!-- Integration Edit Form -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
     <div class="px-6 py-4 border-b border-gray-200">
-      <h2 class="text-lg font-medium text-gray-900">Integration Details</h2>
-      <p class="text-sm text-gray-600">Modify the integration configuration</p>
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Integration Details</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-300">Modify the integration configuration</p>
     </div>
 
     <%= form_with model: @chat_integration, local: true, class: "divide-y divide-gray-200" do |form| %>
       <div class="px-6 py-6 space-y-6">
         <!-- Platform Display -->
         <div>
-          <label class="block text-sm font-medium text-gray-900 mb-2">Platform</label>
+          <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Platform</label>
           <div class="flex items-center space-x-3">
             <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
               <% case @chat_integration.platform %>
@@ -69,20 +69,20 @@
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
               <% else %>
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                 </svg>
               <% end %>
             </div>
-            <span class="text-lg font-medium text-gray-900"><%= @chat_integration.platform_display_name %></span>
-            <span class="text-sm text-gray-500">(Platform cannot be changed)</span>
+            <span class="text-lg font-medium text-gray-900 dark:text-white"><%= @chat_integration.platform_display_name %></span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">(Platform cannot be changed)</span>
           </div>
         </div>
 
         <!-- Configuration -->
         <div>
-          <%= form.label :config, "Configuration (JSON)", class: "block text-sm font-medium text-gray-900 mb-2" %>
-          <p class="text-sm text-gray-600 mb-3">Update the configuration details for this platform</p>
+          <%= form.label :config, "Configuration (JSON)", class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">Update the configuration details for this platform</p>
           <%= form.text_area :config, 
               value: @chat_integration.config.present? ? @chat_integration.config : '',
               rows: 8,
@@ -97,8 +97,8 @@
                 class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
           </div>
           <div class="ml-3 text-sm">
-            <%= form.label :active, "Active", class: "font-medium text-gray-900" %>
-            <p class="text-gray-500">Enable this integration for use</p>
+            <%= form.label :active, "Active", class: "font-medium text-gray-900 dark:text-white" %>
+            <p class="text-gray-500 dark:text-gray-400">Enable this integration for use</p>
           </div>
         </div>
       </div>

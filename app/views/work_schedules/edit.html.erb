@@ -1,25 +1,25 @@
 <div class="space-y-6">
   <!-- Page Header -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Edit Work Schedule</h1>
-        <p class="text-gray-600 mt-1">Update your working hours and availability</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Work Schedule</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-1">Update your working hours and availability</p>
       </div>
       <div class="flex space-x-3">
         <%= link_to "View Schedule", work_schedule_path, 
-            class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
         <%= link_to "Back to Dashboard", dashboard_path, 
-            class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
       </div>
     </div>
   </div>
 
   <!-- Work Schedule Edit Form -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-    <div class="px-6 py-4 border-b border-gray-200">
-      <h2 class="text-lg font-medium text-gray-900">Schedule Settings</h2>
-      <p class="text-sm text-gray-600">Configure when you're available for work</p>
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Schedule Settings</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-300">Configure when you're available for work</p>
     </div>
 
     <%= form_with model: @work_schedule, local: true, class: "divide-y divide-gray-200" do |form| %>
@@ -27,23 +27,23 @@
         <!-- Time Settings -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <%= form.label :start_time, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.label :start_time, class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
             <%= form.time_field :start_time, 
                 value: @work_schedule.start_time&.strftime("%H:%M"),
-                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-            <p class="text-xs text-gray-500 mt-1">When you start working each day</p>
+                class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white" %>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">When you start working each day</p>
           </div>
 
           <div>
-            <%= form.label :end_time, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.label :end_time, class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
             <%= form.time_field :end_time, 
                 value: @work_schedule.end_time&.strftime("%H:%M"),
-                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-            <p class="text-xs text-gray-500 mt-1">When you finish working each day</p>
+                class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white" %>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">When you finish working each day</p>
           </div>
 
           <div>
-            <%= form.label :timezone, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.label :timezone, class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
             <%= form.select :timezone, 
                 options_for_select([
                   ['Eastern Time (ET)', 'America/New_York'],
@@ -57,15 +57,15 @@
                   ['Sydney (AEDT)', 'Australia/Sydney']
                 ], @work_schedule.timezone || current_user&.timezone || 'America/New_York'),
                 { prompt: 'Select timezone...' },
-                { class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
-            <p class="text-xs text-gray-500 mt-1">Your local timezone</p>
+                { class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white" } %>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Your local timezone</p>
           </div>
         </div>
 
         <!-- Work Days -->
         <div>
-          <%= form.label :days_of_week, "Working Days", class: "block text-sm font-medium text-gray-900 mb-3" %>
-          <p class="text-sm text-gray-600 mb-3">Select the days you typically work</p>
+          <%= form.label :days_of_week, "Working Days", class: "block text-sm font-medium text-gray-900 dark:text-white mb-3" %>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">Select the days you typically work</p>
           <div class="grid grid-cols-2 md:grid-cols-7 gap-3">
             <% [
               ['monday', 'Mon'],
@@ -82,10 +82,10 @@
                     day, 
                     nil %>
                 <label for="work_schedule_days_of_week_<%= day %>" 
-                       class="relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-sm focus:outline-none hover:bg-gray-50">
+                       class="relative flex cursor-pointer rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-3 shadow-sm focus:outline-none hover:bg-gray-50 dark:bg-gray-700">
                   <div class="flex flex-1">
                     <div class="flex flex-col">
-                      <span class="block text-sm font-medium text-gray-900 text-center"><%= abbr %></span>
+                      <span class="block text-sm font-medium text-gray-900 dark:text-white text-center"><%= abbr %></span>
                     </div>
                   </div>
                   <div class="ml-3 flex h-5 items-center">
@@ -97,15 +97,15 @@
               </div>
             <% end %>
           </div>
-          <p class="text-xs text-gray-500 mt-2">Click to select/deselect working days</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Click to select/deselect working days</p>
         </div>
       </div>
 
       <!-- Form Actions -->
-      <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+      <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-700">
         <div class="flex justify-between items-center">
           <%= link_to "Cancel", work_schedule_path, 
-              class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+              class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
           
           <%= form.submit "Update Schedule", 
               class: "inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
@@ -115,7 +115,7 @@
   </div>
 
   <!-- Current Schedule Info -->
-  <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+  <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
     <div class="flex">
       <div class="flex-shrink-0">
         <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -124,7 +124,7 @@
       </div>
       <div class="ml-3">
         <h3 class="text-sm font-medium text-gray-800">Current Schedule Information</h3>
-        <div class="mt-2 text-sm text-gray-700">
+        <div class="mt-2 text-sm text-gray-700 dark:text-gray-300">
           <% if @work_schedule.persisted? %>
             <p><strong>Working Hours:</strong> <%= @work_schedule.work_hours %></p>
             <p><strong>Working Days:</strong> <%= @work_schedule.work_days_display %></p>
@@ -183,10 +183,10 @@ document.addEventListener('DOMContentLoaded', function() {
     checkbox.addEventListener('change', function() {
       if (this.checked) {
         label.classList.add('border-blue-500', 'bg-blue-50');
-        label.classList.remove('border-gray-300', 'bg-white');
+        label.classList.remove('border-gray-300 dark:border-gray-600', 'bg-white dark:bg-gray-800');
       } else {
         label.classList.remove('border-blue-500', 'bg-blue-50');
-        label.classList.add('border-gray-300', 'bg-white');
+        label.classList.add('border-gray-300 dark:border-gray-600', 'bg-white dark:bg-gray-800');
       }
     });
   });

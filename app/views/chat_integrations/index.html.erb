@@ -1,10 +1,10 @@
 <div class="space-y-6">
   <!-- Page Header -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Chat Integrations</h1>
-        <p class="text-gray-600 mt-1">Manage chat platform integrations for <%= current_company&.name || 'your company' %></p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Chat Integrations</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-1">Manage chat platform integrations for <%= current_company&.name || 'your company' %></p>
       </div>
       <div class="flex space-x-3">
         <%= link_to "New Integration", new_chat_integration_path, 
@@ -15,10 +15,10 @@
 
   <!-- Chat Integrations List -->
   <% if @chat_integrations.any? %>
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
       <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-medium text-gray-900">All Integrations</h2>
-        <p class="text-sm text-gray-600">Configured chat platforms and their settings</p>
+        <h2 class="text-lg font-medium text-gray-900 dark:text-white">All Integrations</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-300">Configured chat platforms and their settings</p>
       </div>
       
       <div class="divide-y divide-gray-200">
@@ -41,21 +41,21 @@
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
                   <% else %>
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                     </svg>
                   <% end %>
                 </div>
                 <div>
-                  <h3 class="text-sm font-medium text-gray-900"><%= integration.platform_display_name %></h3>
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white"><%= integration.platform_display_name %></h3>
                   <div class="mt-1 flex items-center space-x-2">
                     <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= integration.active? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
                       <%= integration.active? ? 'Active' : 'Inactive' %>
                     </span>
-                    <span class="text-xs text-gray-500"><%= integration.team_chat_configs.count %> team configs</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400"><%= integration.team_chat_configs.count %> team configs</span>
                   </div>
                   <% if integration.config.present? %>
-                    <p class="text-xs text-gray-500 mt-1">Configuration loaded</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Configuration loaded</p>
                   <% end %>
                 </div>
               </div>
@@ -80,14 +80,14 @@
       </div>
     </div>
   <% else %>
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 text-center">
       <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
         <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
       </div>
-      <h3 class="text-lg font-medium text-gray-900 mb-2">No chat integrations yet</h3>
-      <p class="text-gray-600 mb-4">Get started by setting up your first chat platform integration.</p>
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No chat integrations yet</h3>
+      <p class="text-gray-600 dark:text-gray-300 mb-4">Get started by setting up your first chat platform integration.</p>
       <%= link_to "Create Integration", new_chat_integration_path, 
           class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
     </div>

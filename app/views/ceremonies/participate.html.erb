@@ -1,38 +1,38 @@
 <div class="space-y-6">
   <!-- Page Header -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Participate in <%= @ceremony.name %></h1>
-        <p class="text-gray-600 mt-1"><%= @ceremony.description %></p>
-        <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Participate in <%= @ceremony.name %></h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-1"><%= @ceremony.description %></p>
+        <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
           <span><%= @ceremony.team.name %></span>
           <span><%= @ceremony.scheduled_time.strftime("%I:%M %p") %></span>
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
             <%= @ceremony.cadence.humanize %>
           </span>
         </div>
       </div>
       <div class="text-right">
-        <p class="text-sm text-gray-500">Today is</p>
-        <p class="text-lg font-semibold text-gray-900"><%= Date.current.strftime("%A, %B %d") %></p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Today is</p>
+        <p class="text-lg font-semibold text-gray-900 dark:text-white"><%= Date.current.strftime("%A, %B %d") %></p>
       </div>
     </div>
   </div>
 
   <!-- Participation Form -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-    <div class="px-6 py-4 border-b border-gray-200">
-      <h2 class="text-lg font-medium text-gray-900">Your Responses</h2>
-      <p class="text-sm text-gray-600">Please answer the following questions for today's stand-up</p>
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">Your Responses</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-300">Please answer the following questions for today's stand-up</p>
     </div>
 
-    <%= form_with url: submit_responses_team_ceremony_path(@team, @ceremony), method: :post, local: true, class: "divide-y divide-gray-200" do |form| %>
+    <%= form_with url: submit_responses_team_ceremony_path(@team, @ceremony), method: :post, local: true, class: "divide-y divide-gray-200 dark:divide-gray-700" do |form| %>
       <!-- Debug Information (remove in production) -->
       <% if Rails.env.development? %>
-        <div class="px-6 py-4 bg-yellow-50 border-b border-yellow-200">
-          <h3 class="text-sm font-medium text-yellow-800 mb-2">Debug Info (Development Only)</h3>
-          <div class="text-xs text-yellow-700 space-y-1">
+        <div class="px-6 py-4 bg-yellow-50 dark:bg-yellow-900 border-b border-yellow-200 dark:border-yellow-700">
+          <h3 class="text-sm font-medium text-yellow-800 dark:text-yellow-200 mb-2">Debug Info (Development Only)</h3>
+          <div class="text-xs text-yellow-700 dark:text-yellow-300 space-y-1">
             <p><strong>Total Questions:</strong> <%= @questions.count %></p>
             <p><strong>Questions with Options:</strong> <%= @questions.select(&:has_options?).count %></p>
             <% @questions.each do |q| %>
@@ -45,16 +45,16 @@
       <% @questions.each_with_index do |question, index| %>
         <div class="px-6 py-6">
           <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-900 mb-2">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">
               <%= index + 1 %>. <%= question.question_text %>
               <% if question.required? %>
-                <span class="text-red-500">*</span>
+                <span class="text-red-500 dark:text-red-400">*</span>
               <% end %>
             </label>
             
             <!-- Debug info for development -->
             <% if Rails.env.development? %>
-              <div class="mb-3 p-2 bg-gray-100 rounded text-xs text-gray-600">
+              <div class="mb-3 p-2 bg-gray-100 dark:bg-gray-700 rounded text-xs text-gray-600 dark:text-gray-300">
                 <p><strong>Debug:</strong> Type: <%= question.question_type %> | Options: <%= question.options.inspect %> | Parsed: <%= question.options_array.inspect %> | Has Options: <%= question.has_options? %></p>
               </div>
             <% end %>
@@ -66,7 +66,7 @@
             <% when 'short_answer' %>
               <%= form.text_field "responses[#{question.id}]", 
                   value: existing_answer,
-                  class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                  class: "mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
                   placeholder: "Enter your answer...",
                   required: question.required? %>
 
@@ -74,7 +74,7 @@
               <%= form.text_area "responses[#{question.id}]", 
                   value: existing_answer,
                   rows: 4,
-                  class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                  class: "mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
                   placeholder: "Enter your detailed response...",
                   required: question.required? %>
 
@@ -85,15 +85,15 @@
                     <div class="flex items-center">
                       <%= form.radio_button "responses[#{question.id}]", option, 
                           checked: existing_answer == option,
-                          class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300",
+                          class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700",
                           required: question.required? %>
-                      <label class="ml-3 block text-sm font-medium text-gray-700">
+                      <label class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
                         <%= option %>
                       </label>
                     </div>
                   <% end %>
                 <% else %>
-                  <div class="text-sm text-red-600 bg-red-50 p-3 rounded-md">
+                  <div class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900 p-3 rounded-md">
                     <p><strong>Configuration Error:</strong> This multiple choice question has no options defined.</p>
                     <p class="mt-1">Please contact your team manager to fix this question.</p>
                   </div>
@@ -107,10 +107,10 @@
                     <%= form.check_box "responses[#{question.id}][]", 
                         { multiple: true, 
                           checked: existing_answer&.include?(option),
-                          class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" },
+                          class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700" },
                         option,
                         nil %>
-                    <label class="ml-3 block text-sm font-medium text-gray-700">
+                    <label class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       <%= option %>
                     </label>
                   </div>
@@ -121,17 +121,17 @@
               <%= form.select "responses[#{question.id}]", 
                   options_for_select([['Select an option...', '']] + question.options_array, existing_answer),
                   {},
-                  { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                  { class: "mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
                     required: question.required? } %>
 
             <% when 'file_upload' %>
-              <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+              <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-md">
                 <div class="space-y-1 text-center">
-                  <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                  <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                     <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
-                  <div class="flex text-sm text-gray-600">
-                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                  <div class="flex text-sm text-gray-600 dark:text-gray-300">
+                    <label for="file-upload" class="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                       <span>Upload a file</span>
                       <%= form.file_field "responses[#{question.id}]", 
                           class: "sr-only",
@@ -139,13 +139,13 @@
                     </label>
                     <p class="pl-1">or drag and drop</p>
                   </div>
-                  <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 10MB</p>
                 </div>
               </div>
 
             <% when 'linear_scale' %>
               <div class="mt-2">
-                <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+                <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
                   <span>1 (Lowest)</span>
                   <span>10 (Highest)</span>
                 </div>
@@ -154,9 +154,9 @@
                     <div class="flex items-center">
                       <%= form.radio_button "responses[#{question.id}]", scale_value, 
                           checked: existing_answer == scale_value.to_s,
-                          class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300",
+                          class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700",
                           required: question.required? %>
-                      <label class="ml-1 text-sm text-gray-700">
+                      <label class="ml-1 text-sm text-gray-700 dark:text-gray-300">
                         <%= scale_value %>
                       </label>
                     </div>
@@ -166,28 +166,28 @@
 
             <% when 'multiple_choice_grid' %>
               <div class="mt-2 overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                      <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"></th>
                       <% question.options_array.each do |option| %>
-                        <th class="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-3 py-2 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                           <%= option %>
                         </th>
                       <% end %>
                     </tr>
                   </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
+                  <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     <% question.options_array.each do |row_option| %>
                       <tr>
-                        <td class="px-3 py-2 text-sm font-medium text-gray-900">
+                        <td class="px-3 py-2 text-sm font-medium text-gray-900 dark:text-white">
                           <%= row_option %>
                         </td>
                         <% question.options_array.each do |col_option| %>
                           <td class="px-3 py-2 text-center">
                             <%= form.radio_button "responses[#{question.id}][#{row_option}]", col_option, 
                                 checked: existing_answer&.dig(row_option) == col_option,
-                                class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300",
+                                class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700",
                                 required: question.required? %>
                           </td>
                         <% end %>
@@ -199,21 +199,21 @@
 
             <% when 'checkbox_grid' %>
               <div class="mt-2 overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                      <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"></th>
                       <% question.options_array.each do |option| %>
-                        <th class="px-3 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-3 py-2 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                           <%= option %>
                         </th>
                       <% end %>
                     </tr>
                   </thead>
-                  <tbody class="bg-white divide-y divide-gray-200">
+                  <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     <% question.options_array.each do |row_option| %>
                       <tr>
-                        <td class="px-3 py-2 text-sm font-medium text-gray-900">
+                        <td class="px-3 py-2 text-sm font-medium text-gray-900 dark:text-white">
                           <%= row_option %>
                         </td>
                         <% question.options_array.each do |col_option| %>
@@ -221,7 +221,7 @@
                             <%= form.check_box "responses[#{question.id}][#{row_option}][]", 
                                 { multiple: true, 
                                   checked: existing_answer&.dig(row_option)&.include?(col_option),
-                                  class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" },
+                                  class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700" },
                                 col_option,
                                 nil %>
                           </td>
@@ -235,13 +235,13 @@
             <% when 'date' %>
               <%= form.date_field "responses[#{question.id}]", 
                   value: existing_answer,
-                  class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                  class: "mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
                   required: question.required? %>
 
             <% when 'time' %>
               <%= form.time_field "responses[#{question.id}]", 
                   value: existing_answer,
-                  class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                  class: "mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
                   required: question.required? %>
 
             <% end %>
@@ -250,10 +250,10 @@
       <% end %>
 
       <!-- Submit Button -->
-      <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+      <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
         <div class="flex justify-between items-center">
           <%= link_to "Cancel", team_ceremony_path(@team, @ceremony), 
-              class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+              class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
           
           <%= form.submit "Submit Responses", 
               class: "inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
@@ -264,16 +264,16 @@
 
   <!-- Progress Indicator -->
   <% if @existing_responses.any? %>
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
       <div class="flex">
         <div class="flex-shrink-0">
-          <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+          <svg class="h-5 w-5 text-blue-400 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-blue-800">Progress Saved</h3>
-          <p class="text-sm text-blue-700 mt-1">
+          <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">Progress Saved</h3>
+          <p class="text-sm text-blue-700 dark:text-blue-300 mt-1">
             You have already answered <%= @existing_responses.count %> out of <%= @ceremony.questions.count %> questions today. 
             You can update your responses and submit again.
           </p>
