@@ -24,4 +24,5 @@ class HomeController < ApplicationController
     @recent_responses = current_user.responses.includes(:ceremony, :question)
                                    .recent.limit(5) || []
   end
+
 end
