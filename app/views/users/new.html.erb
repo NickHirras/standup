@@ -1,23 +1,23 @@
 <div class="space-y-6">
   <!-- Page Header -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
     <div class="flex items-center justify-between">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Create New User</h1>
-        <p class="text-gray-600 mt-1">Add a new user to <%= current_company&.name || 'your company' %></p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Create New User</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-1">Add a new user to <%= current_company&.name || 'your company' %></p>
       </div>
       <div class="text-right">
         <%= link_to "Back to Users", users_path, 
-            class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
       </div>
     </div>
   </div>
 
   <!-- User Creation Form -->
-  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
     <div class="px-6 py-4 border-b border-gray-200">
-      <h2 class="text-lg font-medium text-gray-900">User Details</h2>
-      <p class="text-sm text-gray-600">Enter the basic information for the new user</p>
+      <h2 class="text-lg font-medium text-gray-900 dark:text-white">User Details</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-300">Enter the basic information for the new user</p>
     </div>
 
     <%= form_with model: @user, local: true, class: "divide-y divide-gray-200" do |form| %>
@@ -25,16 +25,16 @@
         <!-- Basic Information -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <%= form.label :first_name, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.label :first_name, class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
             <%= form.text_field :first_name, 
-                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
                 placeholder: "e.g., John" %>
           </div>
 
           <div>
-            <%= form.label :last_name, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.label :last_name, class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
             <%= form.text_field :last_name, 
-                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
                 placeholder: "e.g., Doe" %>
           </div>
         </div>
@@ -42,28 +42,28 @@
         <!-- Contact Information -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <%= form.label :email, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.label :email, class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
             <%= form.email_field :email, 
-                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
+                class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm",
                 placeholder: "e.g., john.doe@company.com" %>
           </div>
 
           <div>
-            <%= form.label :role, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.label :role, class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
             <%= form.select :role, 
                 options_for_select([
                   ['Regular User', 'user'],
                   ['Administrator', 'admin']
                 ]),
                 { prompt: 'Select role...' },
-                { class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
+                { class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
           </div>
         </div>
 
         <!-- Preferences -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <%= form.label :timezone, class: "block text-sm font-medium text-gray-900 mb-2" %>
+            <%= form.label :timezone, class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
             <%= form.select :timezone, 
                 options_for_select([
                   ['Eastern Time (ET)', 'America/New_York'],
@@ -77,15 +77,15 @@
                   ['Sydney (AEDT)', 'Australia/Sydney']
                 ]),
                 { prompt: 'Select timezone...' },
-                { class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
+                { class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" } %>
           </div>
 
           <div>
-            <%= form.label :notification_preferences, "Notification Preferences (JSON)", class: "block text-sm font-medium text-gray-900 mb-2" %>
-            <p class="text-sm text-gray-600 mb-3">Optional JSON configuration for notifications</p>
+            <%= form.label :notification_preferences, "Notification Preferences (JSON)", class: "block text-sm font-medium text-gray-900 dark:text-white mb-2" %>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">Optional JSON configuration for notifications</p>
             <%= form.text_area :notification_preferences, 
                 rows: 4,
-                class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono",
+                class: "block w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-mono",
                 placeholder: '{"email": true, "chat": true, "reminders": true}' %>
           </div>
         </div>
@@ -95,7 +95,7 @@
       <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
         <div class="flex justify-between items-center">
           <%= link_to "Cancel", users_path, 
-              class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+              class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
           
           <%= form.submit "Create User", 
               class: "inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
