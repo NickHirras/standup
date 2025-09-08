@@ -66,6 +66,30 @@
           </div>
         </div>
       </nav>
+    <% else %>
+      <!-- Guest Navigation -->
+      <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <%= link_to root_path, class: "text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors" do %>
+                  Standup
+                <% end %>
+              </div>
+              <div class="hidden md:ml-6 md:flex md:space-x-8">
+                <a href="#features" class="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Features</a>
+                <a href="#how-it-works" class="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">How it Works</a>
+                <a href="#testimonials" class="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Testimonials</a>
+              </div>
+            </div>
+            <div class="flex items-center space-x-4">
+              <%= link_to "Sign In", new_user_session_path, class: "text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors" %>
+              <%= link_to "Get Started", new_user_registration_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-105" %>
+            </div>
+          </div>
+        </div>
+      </nav>
     <% end %>
 
     <!-- Main Content -->
