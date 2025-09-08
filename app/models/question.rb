@@ -16,23 +16,23 @@ class Question < ApplicationRecord
 
   # Enums
   enum :question_type, {
-    short_answer: 'short_answer',
-    paragraph: 'paragraph',
-    multiple_choice: 'multiple_choice',
-    checkboxes: 'checkboxes',
-    dropdown: 'dropdown',
-    file_upload: 'file_upload',
-    linear_scale: 'linear_scale',
-    multiple_choice_grid: 'multiple_choice_grid',
-    checkbox_grid: 'checkbox_grid',
-    date: 'date',
-    time: 'time'
+    short_answer: "short_answer",
+    paragraph: "paragraph",
+    multiple_choice: "multiple_choice",
+    checkboxes: "checkboxes",
+    dropdown: "dropdown",
+    file_upload: "file_upload",
+    linear_scale: "linear_scale",
+    multiple_choice_grid: "multiple_choice_grid",
+    checkbox_grid: "checkbox_grid",
+    date: "date",
+    time: "time"
   }
 
   # Methods
   def options_array
     return [] if options.blank?
-    
+
     begin
       parsed = JSON.parse(options)
       Rails.logger.debug "Question #{id}: Parsed options from '#{options}' to #{parsed.inspect}"
@@ -60,11 +60,11 @@ class Question < ApplicationRecord
   end
 
   def file_based?
-    question_type == 'file_upload'
+    question_type == "file_upload"
   end
 
   def scale_based?
-    question_type == 'linear_scale'
+    question_type == "linear_scale"
   end
 
   def requires_options?
@@ -81,13 +81,13 @@ class Question < ApplicationRecord
 
   def reorder!(new_order)
     return if new_order == order
-    
+
     if new_order < order
-      ceremony.questions.where('order >= ? AND order < ?', new_order, order).update_all('order = order + 1')
+      ceremony.questions.where("order >= ? AND order < ?", new_order, order).update_all("order = order + 1")
     else
-      ceremony.questions.where('order > ? AND order <= ?', order, new_order).update_all('order = order - 1')
+      ceremony.questions.where("order > ? AND order <= ?", order, new_order).update_all("order = order - 1")
     end
-    
+
     update!(order: new_order)
   end
 end

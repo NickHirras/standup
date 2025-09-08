@@ -9,7 +9,7 @@ class Response < ApplicationRecord
   validates :user, presence: true
   validates :question, presence: true
   validates :submitted_at, presence: true
-  validates :user_id, uniqueness: { scope: [:ceremony_id, :question_id] }
+  validates :user_id, uniqueness: { scope: [ :ceremony_id, :question_id ] }
 
   # Scopes
   scope :for_today, -> { where(submitted_at: Time.current.beginning_of_day..Time.current.end_of_day) }
@@ -29,13 +29,13 @@ class Response < ApplicationRecord
 
   def formatted_answer
     case question.question_type
-    when 'date'
-      Date.parse(answer).strftime('%B %d, %Y') rescue answer
-    when 'time'
-      Time.parse(answer).strftime('%I:%M %p') rescue answer
-    when 'checkboxes'
-      answer_array.join(', ')
-    when 'multiple_choice_grid', 'checkbox_grid'
+    when "date"
+      Date.parse(answer).strftime("%B %d, %Y") rescue answer
+    when "time"
+      Time.parse(answer).strftime("%I:%M %p") rescue answer
+    when "checkboxes"
+      answer_array.join(", ")
+    when "multiple_choice_grid", "checkbox_grid"
       format_grid_answer
     else
       answer
@@ -46,7 +46,7 @@ class Response < ApplicationRecord
     return [] if answer.blank?
     JSON.parse(answer)
   rescue JSON::ParserError
-    [answer]
+    [ answer ]
   end
 
   private
@@ -57,11 +57,11 @@ class Response < ApplicationRecord
 
   def format_grid_answer
     return answer unless answer.present?
-    
+
     begin
       grid_data = JSON.parse(answer)
       if grid_data.is_a?(Hash)
-        grid_data.map { |key, value| "#{key}: #{value}" }.join(', ')
+        grid_data.map { |key, value| "#{key}: #{value}" }.join(", ")
       else
         answer
       end

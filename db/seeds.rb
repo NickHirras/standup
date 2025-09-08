@@ -71,7 +71,7 @@ puts "Creating teams..."
 teams = []
 3.times do |i|
   team = Team.create!(
-    name: ["Engineering", "Product", "Design", "Marketing", "Sales"][i],
+    name: [ "Engineering", "Product", "Design", "Marketing", "Sales" ][i],
     description: Faker::Company.catch_phrase,
     company: company
   )
@@ -83,7 +83,7 @@ puts "Adding users to teams..."
 teams.each_with_index do |team, team_index|
   # Add admin to all teams as manager
   team.add_member(admin, role: 'manager')
-  
+
   # Add some users to each team
   users_to_add = users.sample(rand(2..4))
   users_to_add.each_with_index do |user, user_index|
@@ -120,7 +120,7 @@ ceremonies.each do |ceremony|
     required: true,
     order: 1
   )
-  
+
   # What are you working on today?
   Question.create!(
     ceremony: ceremony,
@@ -129,7 +129,7 @@ ceremonies.each do |ceremony|
     required: true,
     order: 2
   )
-  
+
   # Any blockers?
   Question.create!(
     ceremony: ceremony,
@@ -138,7 +138,7 @@ ceremonies.each do |ceremony|
     required: false,
     order: 3
   )
-  
+
   # How are you feeling?
   Question.create!(
     ceremony: ceremony,
@@ -147,33 +147,33 @@ ceremonies.each do |ceremony|
     required: false,
     order: 4
   )
-  
+
   # Priority level
   Question.create!(
     ceremony: ceremony,
     question_text: "What's your priority level for today?",
     question_type: "dropdown",
-    options: ["Low", "Medium", "High", "Critical"].to_json,
+    options: [ "Low", "Medium", "High", "Critical" ].to_json,
     required: true,
     order: 5
   )
-  
+
   # Team mood
   Question.create!(
     ceremony: ceremony,
     question_text: "How would you describe the team's current mood?",
     question_type: "multiple_choice",
-    options: ["Excited", "Focused", "Stressed", "Relaxed", "Challenged"].to_json,
+    options: [ "Excited", "Focused", "Stressed", "Relaxed", "Challenged" ].to_json,
     required: false,
     order: 6
   )
-  
+
   # Work environment
   Question.create!(
     ceremony: ceremony,
     question_text: "What best describes your current work environment?",
     question_type: "checkboxes",
-    options: ["Quiet", "Collaborative", "Distracting", "Productive", "Flexible"].to_json,
+    options: [ "Quiet", "Collaborative", "Distracting", "Productive", "Flexible" ].to_json,
     required: false,
     order: 7
   )
@@ -185,7 +185,7 @@ ceremonies.each do |ceremony|
   ceremony.team.users.each do |user|
     ceremony.questions.each do |question|
       next if rand > 0.7 # 70% chance of responding
-      
+
       answer = case question.question_type
       when "paragraph"
         Faker::Lorem.paragraph(sentence_count: 2)
@@ -206,7 +206,7 @@ ceremonies.each do |ceremony|
       else
         "Sample response"
       end
-      
+
       Response.create!(
         ceremony: ceremony,
         user: user,
@@ -226,7 +226,7 @@ users.each do |user|
     start_time: Time.parse("9:00 AM"),
     end_time: Time.parse("5:00 PM"),
     timezone: "America/Chicago",
-    days_of_week: [1, 2, 3, 4, 5].to_json # Monday to Friday
+    days_of_week: [ 1, 2, 3, 4, 5 ].to_json # Monday to Friday
   )
 end
 
@@ -236,7 +236,7 @@ UserWorkSchedule.create!(
   start_time: Time.parse("8:00 AM"),
   end_time: Time.parse("6:00 PM"),
   timezone: "America/Chicago",
-  days_of_week: [1, 2, 3, 4, 5].to_json
+  days_of_week: [ 1, 2, 3, 4, 5 ].to_json
 )
 
 # Create chat integrations

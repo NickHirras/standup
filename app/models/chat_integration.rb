@@ -13,7 +13,7 @@ class ChatIntegration < ApplicationRecord
   scope :by_platform, ->(platform) { where(platform: platform) }
 
   # Enums
-  enum :platform, { slack: 'slack', google_chat: 'google_chat', microsoft_teams: 'microsoft_teams' }
+  enum :platform, { slack: "slack", google_chat: "google_chat", microsoft_teams: "microsoft_teams" }
 
   # Methods
   def config_hash
@@ -36,12 +36,12 @@ class ChatIntegration < ApplicationRecord
 
   def platform_display_name
     case platform
-    when 'slack'
-      'Slack'
-    when 'google_chat'
-      'Google Chat'
-    when 'microsoft_teams'
-      'Microsoft Teams'
+    when "slack"
+      "Slack"
+    when "google_chat"
+      "Google Chat"
+    when "microsoft_teams"
+      "Microsoft Teams"
     else
       platform.titleize
     end
@@ -49,11 +49,11 @@ class ChatIntegration < ApplicationRecord
 
   def test_connection
     case platform
-    when 'slack'
+    when "slack"
       test_slack_connection
-    when 'google_chat'
+    when "google_chat"
       test_google_chat_connection
-    when 'microsoft_teams'
+    when "microsoft_teams"
       test_microsoft_teams_connection
     else
       false
@@ -65,11 +65,11 @@ class ChatIntegration < ApplicationRecord
 
   def send_message(chat_space_id, message)
     case platform
-    when 'slack'
+    when "slack"
       send_slack_message(chat_space_id, message)
-    when 'google_chat'
+    when "google_chat"
       send_google_chat_message(chat_space_id, message)
-    when 'microsoft_teams'
+    when "microsoft_teams"
       send_microsoft_teams_message(chat_space_id, message)
     else
       false

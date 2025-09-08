@@ -1,6 +1,6 @@
 class CompaniesController < ApplicationController
   before_action :require_admin
-  before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :set_company, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @companies = Company.all.includes(:users, :teams)
@@ -18,9 +18,9 @@ class CompaniesController < ApplicationController
 
   def create
     @company = Company.new(company_params)
-    
+
     if @company.save
-      redirect_to @company, notice: 'Company was successfully created.'
+      redirect_to @company, notice: "Company was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class CompaniesController < ApplicationController
 
   def update
     if @company.update(company_params)
-      redirect_to @company, notice: 'Company was successfully updated.'
+      redirect_to @company, notice: "Company was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class CompaniesController < ApplicationController
 
   def destroy
     @company.destroy
-    redirect_to companies_url, notice: 'Company was successfully deleted.'
+    redirect_to companies_url, notice: "Company was successfully deleted."
   end
 
   private

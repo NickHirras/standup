@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :set_team
   before_action :set_ceremony
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [ :show, :edit, :update, :destroy ]
   before_action :require_team_manager
 
   def index
@@ -18,9 +18,9 @@ class QuestionsController < ApplicationController
 
   def create
     @question = @ceremony.questions.build(question_params)
-    
+
     if @question.save
-      redirect_to team_ceremony_questions_path(@team, @ceremony), notice: 'Question was successfully created.'
+      redirect_to team_ceremony_questions_path(@team, @ceremony), notice: "Question was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      redirect_to team_ceremony_questions_path(@team, @ceremony), notice: 'Question was successfully updated.'
+      redirect_to team_ceremony_questions_path(@team, @ceremony), notice: "Question was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,12 +39,12 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question.destroy
-    redirect_to team_ceremony_questions_path(@team, @ceremony), notice: 'Question was successfully deleted.'
+    redirect_to team_ceremony_questions_path(@team, @ceremony), notice: "Question was successfully deleted."
   end
 
   def reorder
     questions_data = params[:questions]
-    
+
     if questions_data.present?
       ActiveRecord::Base.transaction do
         questions_data.each do |question_data|
@@ -54,12 +54,12 @@ class QuestionsController < ApplicationController
         render json: { success: true }
       end
     else
-      render json: { success: false, error: 'No questions data provided' }, status: :unprocessable_entity
+      render json: { success: false, error: "No questions data provided" }, status: :unprocessable_entity
     end
   rescue ActiveRecord::RecordNotFound => e
-    render json: { success: false, error: 'Question not found' }, status: :not_found
+    render json: { success: false, error: "Question not found" }, status: :not_found
   rescue StandardError => e
-    render json: { success: false, error: 'Failed to reorder questions' }, status: :unprocessable_entity
+    render json: { success: false, error: "Failed to reorder questions" }, status: :unprocessable_entity
   end
 
   private

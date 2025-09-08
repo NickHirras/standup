@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :team_memberships, dependent: :destroy
   has_many :teams, through: :team_memberships
   has_many :responses, dependent: :destroy
-  has_one :work_schedule, class_name: 'UserWorkSchedule', dependent: :destroy
+  has_one :work_schedule, class_name: "UserWorkSchedule", dependent: :destroy
 
   # Validations
   validates :first_name, presence: true
@@ -18,11 +18,11 @@ class User < ApplicationRecord
   validates :timezone, presence: true
 
   # Enums
-  enum :role, { user: 'user', admin: 'admin' }
+  enum :role, { user: "user", admin: "admin" }
 
   # Scopes
-  scope :admins, -> { where(role: 'admin') }
-  scope :regular_users, -> { where(role: 'user') }
+  scope :admins, -> { where(role: "admin") }
+  scope :regular_users, -> { where(role: "user") }
 
   # Methods
   def full_name
@@ -30,11 +30,11 @@ class User < ApplicationRecord
   end
 
   def admin?
-    role == 'admin'
+    role == "admin"
   end
 
   def team_manager?(team)
-    team_memberships.find_by(team: team)&.role == 'manager'
+    team_memberships.find_by(team: team)&.role == "manager"
   end
 
   def team_member?(team)
@@ -42,7 +42,7 @@ class User < ApplicationRecord
   end
 
   def managed_teams
-    teams.joins(:team_memberships).where(team_memberships: { role: 'manager' })
+    teams.joins(:team_memberships).where(team_memberships: { role: "manager" })
   end
 
   def notification_preferences_hash
