@@ -7,7 +7,7 @@ gem "propshaft"
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
+gem "puma", "~> 7.0.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotboired.dev]
@@ -25,16 +25,16 @@ gem "bcrypt", "~> 3.1.7"
 # Chat Integrations
 gem "slack-ruby-client", "~> 2.1"
 gem "google-apis-chat_v1", "~> 0.1"
-gem "microsoft_graph", "~> 0.1"
+gem "microsoft_graph", "~> 0.22"
 
 # Background Jobs and Scheduling
-gem "sidekiq", "~> 7.2"
+gem "sidekiq", "~> 8.0"
 gem "whenever", "~> 1.0"
 
 # UI and Styling
-gem "tailwindcss-rails", "~> 2.3"
-gem "view_component", "~> 3.11"
-gem "heroicon", "~> 0.1"
+gem "tailwindcss-rails", "~> 4.3"
+gem "view_component", "~> 4.0"
+gem "heroicon", "~> 1.0"
 
 # File Uploads
 gem "image_processing", "~> 1.2"
