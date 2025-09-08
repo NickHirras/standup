@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    registrations: 'users/registrations'
+    registrations: "users/registrations"
   }
 
   # Root route
-  root 'home#index'
-  
+  root "home#index"
+
   # Dashboard
-  get 'dashboard', to: 'home#dashboard'
+  get "dashboard", to: "home#dashboard"
 
   # Admin routes
   resources :companies
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       post :add_member
       delete :remove_member
     end
-    
+
     # Ceremony routes
     resources :ceremonies do
       member do
@@ -33,7 +33,7 @@ Rails.application.routes.draw do
         post :submit_responses
         get :responses
       end
-      
+
       # Question routes
       resources :questions do
         collection do
@@ -44,11 +44,11 @@ Rails.application.routes.draw do
   end
 
   # Team chat configuration routes
-  resources :team_chat_configs, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  resources :team_chat_configs, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
 
   # User work schedule routes
-  resource :work_schedule, only: [:show, :edit, :update]
+  resource :work_schedule, only: [ :show, :edit, :update ]
 
   # Health check
-  get 'health', to: 'health#show'
+  get "health", to: "health#show"
 end

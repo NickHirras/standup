@@ -15,18 +15,18 @@ class Team < ApplicationRecord
 
   # Methods
   def managers
-    users.joins(:team_memberships).where(team_memberships: { role: 'manager' })
+    users.joins(:team_memberships).where(team_memberships: { role: "manager" })
   end
 
   def regular_members
-    users.joins(:team_memberships).where(team_memberships: { role: 'member' })
+    users.joins(:team_memberships).where(team_memberships: { role: "member" })
   end
 
   def all_members
     users
   end
 
-  def add_member(user, role: 'member')
+  def add_member(user, role: "member")
     team_memberships.create(user: user, role: role)
   end
 
@@ -48,7 +48,7 @@ class Team < ApplicationRecord
   end
 
   def has_manager?(user)
-    team_memberships.exists?(user: user, role: 'manager')
+    team_memberships.exists?(user: user, role: "manager")
   end
 
   def has_member?(user)

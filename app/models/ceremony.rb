@@ -16,19 +16,19 @@ class Ceremony < ApplicationRecord
   scope :scheduled_for_today, -> { where(active: true) }
 
   # Enums
-  enum :cadence, { daily: 'daily', weekly: 'weekly', bi_weekly: 'bi_weekly', monthly: 'monthly', custom: 'custom' }
+  enum :cadence, { daily: "daily", weekly: "weekly", bi_weekly: "bi_weekly", monthly: "monthly", custom: "custom" }
 
   # Methods
   def next_occurrence
     # This is a simplified version - in production you'd want more sophisticated scheduling logic
     case cadence
-    when 'daily'
+    when "daily"
       Time.current.beginning_of_day + scheduled_time.seconds_since_midnight
-    when 'weekly'
+    when "weekly"
       Time.current.beginning_of_week + scheduled_time.seconds_since_midnight
-    when 'bi_weekly'
+    when "bi_weekly"
       Time.current.beginning_of_week + scheduled_time.seconds_since_midnight + 1.week
-    when 'monthly'
+    when "monthly"
       Time.current.beginning_of_month + scheduled_time.seconds_since_midnight
     else
       Time.current.beginning_of_day + scheduled_time.seconds_since_midnight
@@ -50,7 +50,7 @@ class Ceremony < ApplicationRecord
   def completion_rate_for_today
     total_members = team_members.count
     return 0 if total_members.zero?
-    
+
     (responses_for_today.count.to_f / total_members * 100).round(1)
   end
 

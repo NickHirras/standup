@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  skip_before_action :authenticate_user!, only: [ :index ]
+
   def index
     if user_signed_in?
       @user = current_user
@@ -14,7 +16,7 @@ class HomeController < ApplicationController
 
   def dashboard
     redirect_to root_path unless user_signed_in?
-    
+
     @user = current_user
     @teams = current_user.teams.includes(:ceremonies) || []
     @today_ceremonies = @teams.flat_map(&:active_ceremonies).select(&:due_today?) || []
@@ -24,5 +26,4 @@ class HomeController < ApplicationController
     @recent_responses = current_user.responses.includes(:ceremony, :question)
                                    .recent.limit(5) || []
   end
-
 end

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_admin
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @users = current_company&.users&.includes(:teams, :work_schedule) || []
@@ -18,9 +18,9 @@ class UsersController < ApplicationController
 
   def create
     @user = current_company&.users&.build(user_params)
-    
+
     if @user&.save
-      redirect_to @user, notice: 'User was successfully created.'
+      redirect_to @user, notice: "User was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to @user, notice: "User was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully deleted.'
+    redirect_to users_url, notice: "User was successfully deleted."
   end
 
   private
@@ -49,6 +49,15 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :role, :timezone, :notification_preferences)
+    # Only allow role changes if the current user is not updating themselves
+    # or if they are an admin updating another user
+    permitted_params = [ :first_name, :last_name, :email, :timezone, :notification_preferences ]
+
+    # Only allow role changes for admin users and only when updating other users
+    if current_user.admin? && @user != current_user
+      permitted_params << :role
+    end
+
+    params.require(:user).permit(permitted_params)
   end
 end

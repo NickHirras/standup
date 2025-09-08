@@ -1,6 +1,6 @@
 class ChatIntegrationsController < ApplicationController
   before_action :require_admin
-  before_action :set_chat_integration, only: [:show, :edit, :update, :destroy, :test_connection]
+  before_action :set_chat_integration, only: [ :show, :edit, :update, :destroy, :test_connection ]
 
   def index
     @chat_integrations = current_company&.chat_integrations&.includes(:team_chat_configs) || []
@@ -16,9 +16,9 @@ class ChatIntegrationsController < ApplicationController
 
   def create
     @chat_integration = current_company&.chat_integrations&.build(chat_integration_params)
-    
+
     if @chat_integration&.save
-      redirect_to @chat_integration, notice: 'Chat integration was successfully created.'
+      redirect_to @chat_integration, notice: "Chat integration was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class ChatIntegrationsController < ApplicationController
 
   def update
     if @chat_integration.update(chat_integration_params)
-      redirect_to @chat_integration, notice: 'Chat integration was successfully updated.'
+      redirect_to @chat_integration, notice: "Chat integration was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -37,14 +37,14 @@ class ChatIntegrationsController < ApplicationController
 
   def destroy
     @chat_integration.destroy
-    redirect_to chat_integrations_url, notice: 'Chat integration was successfully deleted.'
+    redirect_to chat_integrations_url, notice: "Chat integration was successfully deleted."
   end
 
   def test_connection
     if @chat_integration.test_connection
-      render json: { success: true, message: 'Connection test successful!' }
+      render json: { success: true, message: "Connection test successful!" }
     else
-      render json: { success: false, message: 'Connection test failed. Please check your configuration.' }
+      render json: { success: false, message: "Connection test failed. Please check your configuration." }
     end
   end
 

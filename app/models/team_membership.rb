@@ -10,18 +10,18 @@ class TeamMembership < ApplicationRecord
   validates :user_id, uniqueness: { scope: :team_id }
 
   # Enums
-  enum :role, { member: 'member', manager: 'manager' }
+  enum :role, { member: "member", manager: "manager" }
 
   # Scopes
-  scope :managers, -> { where(role: 'manager') }
-  scope :members, -> { where(role: 'member') }
+  scope :managers, -> { where(role: "manager") }
+  scope :members, -> { where(role: "member") }
 
   # Methods
   def manager?
-    role == 'manager'
+    role == "manager"
   end
 
   def member?
-    role == 'member'
+    role == "member"
   end
 end
