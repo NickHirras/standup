@@ -300,7 +300,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (7.0.1)
+    puma (7.0.2)
       nio4r (~> 2.0)
     pundit (2.5.0)
       activesupport (>= 3.0.0)
@@ -530,7 +530,7 @@ DEPENDENCIES
   kamal
   microsoft_graph (~> 0.22)
   propshaft
-  puma (~> 7.0.0)
+  puma (~> 7.0.2)
   pundit (~> 2.3)
   rails (~> 8.0.2, >= 8.0.2.1)
   rubocop-rails-omakase
