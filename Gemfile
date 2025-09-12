@@ -19,7 +19,7 @@ gem "jbuilder"
 
 # Authentication and Authorization
 gem "devise", "~> 4.9"
-gem "pundit", "~> 2.3"
+gem "pundit", "~> 2.5"
 gem "bcrypt", "~> 3.1.7"
 
 # Chat Integrations
