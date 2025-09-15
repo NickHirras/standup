@@ -145,9 +145,9 @@ GEM
       ostruct
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-apis-chat_v1 (0.130.0)
+    google-apis-chat_v1 (0.131.0)
       google-apis-core (>= 0.15.0, < 2.a)
-    google-apis-core (1.0.1)
+    google-apis-core (1.0.2)
       addressable (~> 2.8, >= 2.8.7)
       faraday (~> 2.13)
       faraday-follow_redirects (~> 0.3)
@@ -522,7 +522,7 @@ DEPENDENCIES
   debug
   devise (~> 4.9)
   faker (~> 3.2)
-  google-apis-chat_v1 (~> 0.1)
+  google-apis-chat_v1 (~> 0.131)
   heroicon (~> 1.0)
   image_processing (~> 1.2)
   importmap-rails
