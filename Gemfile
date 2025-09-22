@@ -23,7 +23,7 @@ gem "pundit", "~> 2.3"
 gem "bcrypt", "~> 3.1.7"
 
 # Chat Integrations
-gem "slack-ruby-client", "~> 2.1"
+gem "slack-ruby-client", "~> 3.0"
 gem "google-apis-chat_v1", "~> 0.1"
 gem "microsoft_graph", "~> 0.22"
 
